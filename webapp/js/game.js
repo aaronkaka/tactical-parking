@@ -21,17 +21,18 @@ window.onload = (function() {
             this.addComponent("2D, Canvas, Collision, player");
 
             this.attr({
-                x: 100,
-                y: 300,
+                x: 20,
+                y: 400,
                 z: 1,
                 w: 64,
                 h: 32,
-                turnDegree: 0
+                turnDegree: 0,
+                isParking: false
             });
 
             this.speed = 1;
             this.direction = "e";
-            this.speedMultiplier = 2;
+            this.speedMultiplier = 3;
 
             this.bind("EnterFrame", function() {
 
@@ -65,12 +66,50 @@ window.onload = (function() {
                     }
                 }
 
-                if (this.x < WIDTH-100) {
+                if (!this.isParking) {
                     this.move(this.direction, this.speed * this.speedMultiplier);
                 }
+
+            }).onHit('Wheelstop2', function () {
+                this.isParking = true;
+                this.bumpBackFor(this.direction);
             });
+        },
+
+        bumpBackFor: function(originalDirection) {
+
+            var bumpDirection;
+
+            switch(originalDirection)
+            {
+                case "n":
+                    bumpDirection = "s";
+                    break;
+                case "s":
+                    bumpDirection = "n";
+                    break;
+                case "e":
+                    bumpDirection = "w";
+                    break;
+                case "w":
+                    bumpDirection = "e";
+                    break;
+            }
+
+            this.move(bumpDirection, 2);
+            this.move(bumpDirection, 2);
         }
     });
+
+    for (var i=1; i < 5; i++) {
+        Crafty.e("Wheelstop" + i + ", 2D, Canvas, Color")
+            .color('rgb(255,255,255)')
+            .attr({ x: 100*i + 350, y: 200, w: 30, h: 5 });
+    }
+
+    Crafty.e("Wheelstop2, 2D, Canvas, Color")
+        .color('rgb(255,255,255)')
+        .attr({ x: 1000, y: 110, w: 5, h: 30 });
 
     Crafty.e("Player");
 });
