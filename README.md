@@ -1,7 +1,7 @@
 # Tactical Parking
 Developing my first HTML5 game, utilizing the Crafty component-entity JavaScript game engine.
 
-     Work-in-progress! Check out the game's progress at http://kakaman.fatfractal.com/tacticalParking
+     Work-in-progress!
 
 ## Premise
 Todo.
