@@ -1,22 +1,11 @@
-window.onload = (function() {
-
-    var WIDTH = 1024,
-        HEIGHT = 512;
-
-    // Set the canvas play boundaries
-    Crafty.init(WIDTH, HEIGHT);
-    Crafty.canvas.init();
-    Crafty.background('black');
-
-    //prepare the sprites for game use
-    Crafty.sprite(256, 128, "assets/corvette.png", {
-        player: [0, 0] // player car
-    });
+define([
+    'crafty'
+], function (Crafty) {
 
     // Define the player component
     Crafty.c("Player", {
         // Define game loop behavior
-        init: function() {
+        init: function () {
             this.addComponent("2D, Canvas, Collision, player");
 
             this.attr({
@@ -33,12 +22,12 @@ window.onload = (function() {
             this.direction = "e";
             this.speedMultiplier = 3;
 
-            this.bind("EnterFrame", function() {
+            this.bind("EnterFrame",function () {
 
                 // execute demo left turn to north
                 if (this.x > 200 && this.y >= 200) {
                     this.turn("n");
-                 }
+                }
 
                 // execute demo right turn to east
                 if (this.x < 390 && this.y < 200) {
@@ -55,19 +44,18 @@ window.onload = (function() {
                 }
 
             }).onHit('Set1Bumper1', function () {
-                // Collision detected!
-                this.isParking = true;
-                this.bumpBackFor(this.direction);
-            });
+                    // Collision detected!
+                    this.isParking = true;
+                    this.bumpBackFor(this.direction);
+                });
         },
         // Control turn direction and execution
-        turn: function(newDirection) {
+        turn: function (newDirection) {
 
             var stopTurnDegree,
                 isPositive;
 
-            switch(this.direction)
-            {
+            switch (this.direction) {
                 case "n":
                     if (newDirection === "w") {
                         stopTurnDegree = -180;
@@ -127,12 +115,11 @@ window.onload = (function() {
 
         },
         // Handle the car action after colliding with a parking bumper
-        bumpBackFor: function(originalDirection) {
+        bumpBackFor: function (originalDirection) {
 
             var bumpDirection;
 
-            switch(originalDirection)
-            {
+            switch (originalDirection) {
                 case "n":
                     bumpDirection = "s";
                     break;
@@ -152,20 +139,4 @@ window.onload = (function() {
         }
     });
 
-    // Parking bumpers for Set 1
-    for (var i=1; i < 5; i++) {
-        Crafty.e("Set1Bumper" + i + ", 2D, Canvas, Color")
-            .color('rgb(255,255,255)')
-            .attr({ x: 100*i + 350, y: 200, w: 30, h: 5 });
-    }
-
-    // Parking bumpers for Set 2
-    for (var j=1; j < 4; j++) {
-        Crafty.e("Set2Bumper" + j + ", 2D, Canvas, Color")
-            .color('rgb(255,255,255)')
-            .attr({ x: 1000, y: 110*j, w: 5, h: 30 });
-    }
-
-    // Initialize the player entity
-    Crafty.e("Player");
 });
