@@ -8,6 +8,31 @@ define([
         init: function () {
             this.addComponent("2D, Canvas, Collision, player");
 
+            // Upon keydown event, check for change in direction
+            this.bind('KeyDown', function(e) {
+
+                var oldDirection = this.direction;
+
+                // Storing the new direction if there is a valid keypress
+                var newDirection = {
+                    38: "n",
+                    39: "e",
+                    40: "s",
+                    37: "w"
+                } [e.keyCode] || this.direction;
+
+                // If new direction is not the opposite of the old, change to the new direction
+                if (newDirection !== {
+                    "n": "s",
+                    "s": "n",
+                    "e": "w",
+                    "w": "e"
+                } [oldDirection]) {
+                    this.direction = newDirection;
+                }
+
+            });
+
             this.attr({
                 x: 20,
                 y: 400,
@@ -15,7 +40,7 @@ define([
                 w: 64,
                 h: 32,
                 turnDegree: 0,
-                isParking: false
+                isParked: false
             });
 
             this.speed = 1;
@@ -24,95 +49,36 @@ define([
 
             this.bind("EnterFrame",function () {
 
-                // execute demo left turn to north
-                if (this.x > 200 && this.y >= 200) {
-                    this.turn("n");
+                if (this.direction === "w") {
+                    this.attr({
+                        rotation: 180
+                    });
+                }
+                if (this.direction === "e") {
+                    this.attr({
+                        rotation: 0
+                    });
+                }
+                if (this.direction === "n") {
+                    this.attr({
+                        rotation: 270
+                    });
+                }
+                if (this.direction === "s") {
+                    this.attr({
+                        rotation: 90
+                    });
                 }
 
-                // execute demo right turn to east
-                if (this.x < 390 && this.y < 200) {
-                    this.turn("e");
-                }
-
-                // execute demo right turn to south
-                if (this.x > 390) {
-                    this.turn("s");
-                }
-
-                if (!this.isParking) {
+                if (!this.isParked) {
                     this.move(this.direction, this.speed * this.speedMultiplier);
                 }
 
             }).onHit('Set1Bumper1', function () {
                     // Collision detected!
-                    this.isParking = true;
+                    this.isParked = true;
                     this.bumpBackFor(this.direction);
-                });
-        },
-        // Control turn direction and execution
-        turn: function (newDirection) {
-
-            var stopTurnDegree,
-                isPositive;
-
-            switch (this.direction) {
-                case "n":
-                    if (newDirection === "w") {
-                        stopTurnDegree = -180;
-                        isPositive = false;
-                    } else if (newDirection === "e") {
-                        stopTurnDegree = 0;
-                        isPositive = true;
-                    } else return;
-
-                    break;
-                case "s":
-                    if (newDirection === "w") {
-                        stopTurnDegree = -180;
-                        isPositive = true;
-                    } else if (newDirection === "e") {
-                        stopTurnDegree = 0;
-                        isPositive = false;
-                    } else return;
-
-                    break;
-                case "e":
-                    if (newDirection === "n") {
-                        stopTurnDegree = -90;
-                        isPositive = false;
-                    } else if (newDirection === "s") {
-                        stopTurnDegree = 90;
-                        isPositive = true;
-                    } else return;
-
-                    break;
-                case "w":
-                    if (newDirection === "n") {
-                        stopTurnDegree = -90;
-                        isPositive = true;
-                    } else if (newDirection === "s") {
-                        stopTurnDegree = -270;
-                        isPositive = false;
-                    } else return;
-
-                    break;
-            }
-
-            if (this.turnDegree === stopTurnDegree) {
-                this.direction = newDirection;
-                this.speedMultiplier = 2;
-            } else {
-                this.speedMultiplier = 1;
-                if (isPositive) {
-                    this.turnDegree++;
-                } else {
-                    this.turnDegree--;
-                }
-                this.attr({
-                    rotation: this.turnDegree
-                });
-            }
-
+            });
         },
         // Handle the car action after colliding with a parking bumper
         bumpBackFor: function (originalDirection) {
