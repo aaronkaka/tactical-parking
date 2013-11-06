@@ -31,6 +31,12 @@ define ([
                 .attr({ x: 1000, y: 110*j, w: 5, h: 30 });
         }
 
+        // Display scoreboard
+        Crafty.e("Scoreboard, DOM, 2D, Text")
+            .attr({ x: 20, y: 20, w: 100, h: 20, points: 0 })
+            .css({color:"yellow"})
+            .text("0 Points");
+
         // Initialize the player entity
         Crafty.e("Player");
     };

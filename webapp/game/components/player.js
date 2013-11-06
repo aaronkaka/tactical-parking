@@ -2,7 +2,7 @@ define([
     'crafty'
 ], function (Crafty) {
 
-    // Define the player component
+    // Car controlled by player
     Crafty.c("Player", {
         // Define game loop behavior
         init: function () {
@@ -77,7 +77,20 @@ define([
             }).onHit('Set1Bumper1', function () {
                     // Collision detected!
                     this.isParked = true;
+                    this.updateScoreboard(1);
                     this.bumpBackFor(this.direction);
+            });
+        },
+        updateScoreboard: function (by) {
+            Crafty("Scoreboard").each(function () {
+                var pointTotal = this.points + by,
+                    appendText = " Points";
+
+                if (pointTotal === 1) {
+                    appendText = " Point";
+                }
+
+                this.text(pointTotal + appendText);
             });
         },
         // Handle the car action after colliding with a parking bumper
