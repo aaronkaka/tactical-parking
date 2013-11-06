@@ -14,7 +14,8 @@ define ([
 
         // Prepare the sprites for game use
         Crafty.sprite(256, 128, "assets/corvette.png", {
-            player: [0, 0] // player car
+            player: [0, 0], // player car
+            car: [0, 0]
         });
 
         // Parking bumpers for Set 1
@@ -39,6 +40,8 @@ define ([
 
         // Initialize the player entity
         Crafty.e("Player");
+
+        Crafty.e("Car");
     };
 
     return {

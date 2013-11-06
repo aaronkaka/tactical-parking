@@ -6,7 +6,7 @@ define([
     Crafty.c("Player", {
         // Define game loop behavior
         init: function () {
-            this.addComponent("2D, Canvas, Collision, player");
+            this.addComponent("2D, Canvas, Collision, player"); // 'player' references loaded player sprite
 
             // Upon keydown event, check for change in direction
             this.bind('KeyDown', function(e) {
@@ -34,13 +34,13 @@ define([
             });
 
             this.attr({
-                x: 20,
-                y: 400,
-                z: 1,
-                w: 64,
-                h: 32,
+                x: 20,  // starting coordinate
+                y: 400, // starting coordinate
+                w: 64, // rescale sprite
+                h: 32, // rescale sprite
                 turnDegree: 0,
                 isParked: false
+                // starts facing east
             });
 
             this.speed = 1;
