@@ -1,13 +1,8 @@
 # Tactical Parking
-Developing my first HTML5 game, utilizing the Crafty component-entity JavaScript game engine.
+HTML5 canvas game using the Crafty engine and RequireJS for modular script loading.
 
-     Work-in-progress!
+     Work-in-progress! Feel free to use this as a template if you'd like to use RequireJS for your own Crafty game.
 
 ## Premise
-Todo.
-
-## How To Play
-Todo.
-
-## Getting Involved
-Not accepting contributions yet, as I'm fleshing out the idea and building the core concept at this time.
+Guide your vehicle into a parking spot near a like-colored vehicle in the parking lot before colliding with an NPV 
+(non-playable vehicle). Doing this removes both cars to free up space for your next vehicle to park.
