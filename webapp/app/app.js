@@ -2,7 +2,7 @@ define ([
     'crafty'
 ], function(Crafty) {
 
-    var initialize = function() {
+    var initialize = function(assetPath) {
 
         var WIDTH = 1024,
             HEIGHT = 512;
@@ -13,7 +13,7 @@ define ([
         Crafty.background('black');
 
         // Prepare the sprites for game use
-        Crafty.sprite(256, 128, "assets/corvette.png", {
+        Crafty.sprite(256, 128, assetPath + 'corvette.png', {
             player: [0, 0], // player car
             car: [0, 0]
         });
